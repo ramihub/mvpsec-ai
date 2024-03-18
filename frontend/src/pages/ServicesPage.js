@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import {
     FaShieldAlt, // Cybersecurity Audit
     FaBug, // Incident Response
@@ -19,90 +18,6 @@ import {
   } from 'react-icons/fa';
 import Layout from '../components/Layout';
 
-// Styled components
-const PageContainer = styled.div`
-  padding: 20px;
-  background: ${props => props.theme.colors.darkBlue};
-  color: ${props => props.theme.colors.white};
-`;
-
-const ServiceIntro = styled.section`
-  margin-bottom: 60px;
-`;
-
-const ServicesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-`;
-
-const ServiceCard = styled.div`
-  background: ${props => props.theme.colors.lightBlue};
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const ServiceIcon = styled.div`
-  margin: 20px 0;
-  font-size: 2rem;
-`;
-
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  background: ${props => props.theme.colors.darkBlue};
-  color: ${props => props.theme.colors.white};
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
-  width: 100%;
-`;
-
-const CloseButton = styled.button`
-  background: ${props => props.theme.colors.gray};
-  color: ${props => props.theme.colors.darkBlue};
-  float: right;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const ServiceDetailsCTA = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: ${props => props.theme.colors.teal};
-  border: none;
-  border-radius: 5px;
-  color: ${props => props.theme.colors.white};
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: ${props => props.theme.colors.highlight};
-  }
-`;
-
 // Icons for each service (for illustration purposes, use appropriate ones)
 // Example icon usage in a serviceIcons object
 const serviceIcons = {
@@ -121,19 +36,6 @@ const serviceIcons = {
   'Identity and Access Management (IAM)': <FaUsersCog />,
   'Disaster Recovery Planning': <FaRegLifeRing />,
   'Security Information and Event Management (SIEM)': <FaChartLine />,
-};
-
-const Modal = ({ children, isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <ModalBackground onClick={onClose}>
-      <ModalContent onClick={e => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>X</CloseButton>
-        {children}
-      </ModalContent>
-    </ModalBackground>
-  );
 };
 
 // Service data enriched with SEO-optimized content
@@ -230,33 +132,34 @@ const services = [
     },
   ];
   
-
   const ServicesPage = () => {
-    const [selectedService, setSelectedService] = useState(null);
+    const [expandedIndex, setExpandedIndex] = useState(null); // Correctly defined useState hook for managing expanded card index
+  
+    const toggleDetail = (index) => {
+      setExpandedIndex(expandedIndex === index ? null : index); // Correctly using setExpandedIndex
+    };
   
     return (
-        <Layout>
-      <PageContainer>
-        <ServiceIntro>
-          <h1>Our Cybersecurity Services</h1>
-          <p>In the digital age, cybersecurity is not just a necessity but a critical component...</p>
-        </ServiceIntro>
-        <ServicesGrid>
-          {services.map((service, index) => (
-            <ServiceCard key={index} onClick={() => setSelectedService(service)}>
-              <ServiceIcon>{serviceIcons[service.title]}</ServiceIcon>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-            </ServiceCard>
+      <Layout>
+        <div className="container mx-auto px-4 py-8">
+          <h2 className="text-3xl font-bold text-center mb-10">Our Cybersecurity Services</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+  {services.map((service, index) => (
+            <div key={index} className="card card-compact bg-base-100 shadow-xl cursor-pointer" onClick={() => toggleDetail(index)}>
+              <figure className="px-10 pt-10">
+                <div className="text-3xl">
+                  {serviceIcons[service.title]}
+                </div>
+              </figure>
+              <div className="card-body items-center text-center">
+                <h2 className="card-title">{service.title}</h2>
+                <p>{expandedIndex === index ? service.details : service.description}</p>
+                {expandedIndex === index && <p className="text-sm">Keyword: {service.keyword}</p>}
+              </div>
+            </div>
           ))}
-        </ServicesGrid>
-        <Modal isOpen={!!selectedService} onClose={() => setSelectedService(null)}>
-          <h2>{selectedService?.title}</h2>
-          <p><strong>Keyword:</strong> {selectedService?.keyword}</p>
-          <p>{selectedService?.details}</p>
-          <ServiceDetailsCTA>Contact Us</ServiceDetailsCTA>
-        </Modal>
-      </PageContainer>
+        </div>
+        </div>
       </Layout>
     );
   };
