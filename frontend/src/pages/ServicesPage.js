@@ -154,6 +154,9 @@ const services = [
               <div className="card-body items-center text-center">
                 <h2 className="card-title">{service.title}</h2>
                 <p>{expandedIndex === index ? service.details : service.description}</p>
+                {expandedIndex !== index && (
+                  <p className="text-sm text-primary mt-4 cursor-pointer" onClick={() => toggleDetail(index)}>More...</p>
+                )}
                 {expandedIndex === index && <p className="text-sm">Keyword: {service.keyword}</p>}
               </div>
             </div>
