@@ -144,27 +144,28 @@ const services = [
         <div className="container mx-auto px-4 py-8">
           <h2 className="text-3xl font-bold text-center mb-10">Our Cybersecurity Services</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  {services.map((service, index) => (
-            <div key={index} className="card card-compact bg-base-100 shadow-xl cursor-pointer" onClick={() => toggleDetail(index)}>
-              <figure className="px-10 pt-10">
-                <div className="text-3xl">
-                  {serviceIcons[service.title]}
+            {services.map((service, index) => (
+              <div key={index} className="card card-compact bg-base-100 shadow-xl cursor-pointer transform transition duration-500 hover:scale-105 hover:shadow-2xl" onClick={() => toggleDetail(index)}>
+                <figure className="px-10 pt-10">
+                  <div className="text-3xl">
+                    {serviceIcons[service.title]}
+                  </div>
+                </figure>
+                <div className="card-body items-center text-center">
+                  <h2 className="card-title">{service.title}</h2>
+                  <p>{expandedIndex === index ? service.details : service.description}</p>
+                  {expandedIndex !== index && (
+                    <p className="text-sm text-primary mt-4 cursor-pointer" onClick={() => toggleDetail(index)}>More...</p>
+                  )}
+                  
+                  {expandedIndex === index && <p className="text-sm">Keyword: {service.keyword}</p>}
                 </div>
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">{service.title}</h2>
-                <p>{expandedIndex === index ? service.details : service.description}</p>
-                {expandedIndex !== index && (
-                  <p className="text-sm text-primary mt-4 cursor-pointer" onClick={() => toggleDetail(index)}>More...</p>
-                )}
-                {expandedIndex === index && <p className="text-sm">Keyword: {service.keyword}</p>}
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </Layout>
     );
-  };
-  
-  export default ServicesPage;
+}
+    export default ServicesPage;
+    

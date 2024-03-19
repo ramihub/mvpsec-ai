@@ -66,10 +66,9 @@ const strategies = [
   return (
     <Layout>
       <div className="container mx-auto px-4 mt-16">
-        {/* Wrap the hero section in a div with card-like styles */}
-        <div className="rounded-lg overflow-hidden shadow-xl">
+        {/* Enhanced hero section with card-like styles and hover effect */}
+        <div className="rounded-lg overflow-hidden shadow-xl transform transition duration-500 hover:scale-105 hover:shadow-2xl">
           <div className="hero bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }}>
-            {/* Adjust the hero-overlay for better text readability */}
             <div className="hero-overlay bg-black bg-opacity-60"></div>
             <div className="hero-content text-center text-neutral-content">
               <div className="max-w-lg">
@@ -82,7 +81,8 @@ const strategies = [
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 my-8">
           {strategies.map((strategy, index) => (
-            <div key={index} className="card bg-base-100 shadow-xl" onClick={() => handleStrategyClick(index)}>
+            // Apply transform transition and hover effect to each strategy card
+            <div key={index} className="card bg-base-100 shadow-xl transform transition duration-500 hover:scale-105 hover:shadow-2xl" onClick={() => handleStrategyClick(index)}>
               <div className="card-body items-center text-center">
                 <div className="text-3xl mb-4">{strategy.icon}</div>
                 <h2 className="card-title">{strategy.title}</h2>
@@ -98,6 +98,6 @@ const strategies = [
       </div>
     </Layout>
   );
-}  
-export default HomePage;
+}
+  export default HomePage;
   
